@@ -2,7 +2,6 @@ package segments
 
 import (
 	"errors"
-	"fmt"
 	"testing"
 
 	"github.com/jandedobbeleer/oh-my-posh/src/runtime"
@@ -91,10 +90,14 @@ func TestZig(t *testing.T) {
 		zig := &Zig{}
 		zig.Init(props, env)
 
-		failMsg := fmt.Sprintf("Failed in case: %s", tc.Case)
-		assert.True(t, zig.Enabled(), failMsg)
-		assert.Equal(t, tc.ExpectedString, renderTemplate(env, zig.Template(), zig), failMsg)
-		assert.Equal(t, tc.ExpectedURL, renderTemplate(env, zig.URL, zig), failMsg)
-		assert.Equal(t, tc.InProjectDir, zig.InProjectDir(), failMsg)
+		assert.True(t, zig.Enabled(), tc.Case)
+		assert.Equal(t, tc.ExpectedString, renderTemplate(env, zig.Template(), zig), tc.Case)
+		assert.Equal(t, tc.ExpectedMajor, renderTemplate(env, zig.Major, zig), tc.Case)
+		assert.Equal(t, tc.ExpectedMinor, renderTemplate(env, zig.Minor, zig), tc.Case)
+		assert.Equal(t, tc.ExpectedPatch, renderTemplate(env, zig.Patch, zig), tc.Case)
+		assert.Equal(t, tc.ExpectedPrerelease, renderTemplate(env, zig.Prerelease, zig), tc.Case)
+		assert.Equal(t, tc.ExpectedBuildMetadata, renderTemplate(env, zig.BuildMetadata, zig), tc.Case)
+		assert.Equal(t, tc.ExpectedURL, renderTemplate(env, zig.URL, zig), tc.Case)
+		assert.Equal(t, tc.InProjectDir, zig.InProjectDir(), tc.Case)
 	}
 }
